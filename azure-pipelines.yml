@@ -10,8 +10,14 @@ pool:
   vmImage: windows-latest
 
 steps:
-- task: UiPathRunJob@2
+- task: UiPathPack@2
   inputs:
-    orchestratorConnection: 'ConnectioOrch'
-    processName: 'BlankProcess2'
-    folderName: 'Dev'
+    versionType: 'AutoVersion'
+    projectJsonPath: '$(Build.SourcesDirectory)'
+    outputType: 'Process'
+    outputPath: '$(Build.ArtifactStagingDirectory)\Output'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Demo'
+    publishLocation: 'Container'
